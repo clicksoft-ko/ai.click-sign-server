@@ -3,44 +3,59 @@ import {
   SubscribeMessage,
   MessageBody,
   WebSocketServer,
-  OnGatewayInit,
   OnGatewayConnection,
   OnGatewayDisconnect,
+  ConnectedSocket,
+  OnGatewayInit,
 } from '@nestjs/websockets';
 import { SockSignService } from './sock-sign.service';
 import { Server, Socket } from 'socket.io';
-import { SockSignTransDto } from './dto/sock-sign-trans.dto';
+import { SockData } from './dto/sock-data';
 
 @WebSocketGateway({ transports: ['websocket'] })
 export class SockSignGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 {
   constructor(private readonly sockSignService: SockSignService) {}
-  @WebSocketServer()
-  server: Server;
-  client?: Socket;
-
-  @SubscribeMessage('req-window')
-  sockClient(@MessageBody() dto: SockSignTransDto) {
-    console.log(dto);
-
-    this.server.emit(`res-web-${dto.sockCode}`, dto);
+  afterInit(server: Server) {
+    this.sockSignService.setServer(server);
   }
 
-  @SubscribeMessage('req-web')
-  sockMobile(@MessageBody() dto: SockSignTransDto) {
-    this.server.emit(`res-window-${dto.sockCode}`, dto);
+  @SubscribeMessage('roomIn')
+  roomIn(@ConnectedSocket() socket: Socket, @MessageBody() room: string) {
+    return this.sockSignService.roomIn(socket, room);
   }
 
-  afterInit(server: Socket) {
-    // throw new Error('Method not implemented.');
+  @SubscribeMessage('roomOut')
+  roomOut(
+    @ConnectedSocket() socket: Socket,
+    @MessageBody('room') room: string
+  ) {
+    this.sockSignService.roomOut(socket, room);
   }
+
+  @SubscribeMessage('fromWindow')
+  async fromWindow(
+    @ConnectedSocket() socket: Socket,
+    @MessageBody() dto: SockData
+  ) {
+    return await this.sockSignService.fromWindow(socket, dto);
+  }
+
+  @SubscribeMessage('fromWeb')
+  async fromWeb(
+    @ConnectedSocket() socket: Socket,
+    @MessageBody() dto: SockData
+  ) {
+    return await this.sockSignService.fromWeb(socket, dto);
+  }
+
   handleConnection(client: Socket, ...args: any[]) {
-    this.client = client;
     console.log(`handleConnection : ${client.id}`);
   }
   handleDisconnect(client: Socket) {
-    this.client = undefined;
+    this.sockSignService.disconnect(client);
+
     console.log(`handleDisconnect : ${client.id}`);
   }
 }
