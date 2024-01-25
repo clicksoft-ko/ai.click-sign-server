@@ -14,13 +14,13 @@ export class SockSignService {
   }
 
   roomIn(socket: Socket, room: string) {
-    const isRoomExists = this.roomManager.isRoomExists(room);
-    if (isRoomExists) {
-      return {
-        status: 'error',
-        errorMessage: '해당 코드는 이미 사용중입니다.',
-      };
-    }
+    this.roomManager.leaveAllClientsInRoom(room);
+    // if (isRoomExists) {
+    //   return {
+    //     status: 'error',
+    //     errorMessage: '해당 코드는 이미 사용중입니다.',
+    //   };
+    // }
     socket.join(room);
     return {
       status: 'join',
@@ -35,7 +35,7 @@ export class SockSignService {
     try {
       const response = await this.server
         .to(data.room)
-        .timeout(1000)
+        .timeout(10000)
         .emitWithAck('toWeb', data);
 
       console.log('fromWindow res', response);
@@ -49,7 +49,7 @@ export class SockSignService {
     try {
       const response = await this.server
         .to(data.room)
-        .timeout(1000)
+        .timeout(10000)
         .emitWithAck('toWindow', data);
       console.log('fromWeb res', response);
       return response?.length > 0;

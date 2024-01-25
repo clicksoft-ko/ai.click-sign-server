@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Server, Socket } from 'socket.io';
+import { Server } from 'socket.io';
 
 @Injectable()
 export class SocketRoomManager {
@@ -10,9 +10,21 @@ export class SocketRoomManager {
   }
 
   isRoomExists(room: string): boolean {
-    for (const key of this.server.sockets.adapter.rooms.keys()) {
-      if (key === room) return true;
-    }
-    return false;
+    const rooms = this.server.sockets.adapter.rooms.get(room);
+    return rooms.size > 0;
+  }
+
+  leaveAllClientsInRoom(room: string) {
+    const clientsInRoom = Array.from(
+      this.server.sockets.adapter.rooms.get(room) || []
+    );
+
+    // 모든 클라이언트를 룸에서 leave 시킵니다.
+    clientsInRoom.forEach((clientId) => {
+      const socket = this.server.sockets.sockets.get(clientId);
+      if (socket) {
+        socket.leave(room);
+      }
+    });
   }
 }
