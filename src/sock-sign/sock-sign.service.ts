@@ -43,7 +43,7 @@ export class SockSignService {
         .emitWithAck('toWeb', data);
 
       console.log('fromWindow res', response);
-      return response?.length > 0;
+      return !!response?.[0];
     } catch {
       return false;
     }
@@ -56,7 +56,7 @@ export class SockSignService {
         .timeout(10000)
         .emitWithAck('toWindow', data);
       console.log('fromWeb res', response);
-      return response?.length > 0;
+      return !!response?.[0];
     } catch {
       return false;
     }
