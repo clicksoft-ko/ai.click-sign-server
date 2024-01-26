@@ -14,7 +14,11 @@ export class SockSignService {
   }
 
   roomIn(socket: Socket, room: string) {
-    this.roomManager.leaveAllClientsInRoom(room);
+    const clientIds = this.roomManager.leaveAllClientsInRoom(room);
+
+    for (const clientId of clientIds) {
+      this.server.to(clientId).emit('leaveRoom', room);
+    }
     // if (isRoomExists) {
     //   return {
     //     status: 'error',

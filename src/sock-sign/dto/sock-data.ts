@@ -13,6 +13,7 @@ export enum ToWeb {
   화면공유 = 200,
   화면초기화 = 201,
   윈도우접속에러 = 500,
+  PING = 1000,
 }
 
 export enum ToWindow {
@@ -21,4 +22,5 @@ export enum ToWindow {
   화면공유 = 200,
   화면초기화 = 201,
   웹접속에러 = 500,
+  PING = 1000,
 }

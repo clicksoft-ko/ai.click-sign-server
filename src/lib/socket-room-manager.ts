@@ -26,5 +26,7 @@ export class SocketRoomManager {
         socket.leave(room);
       }
     });
+
+    return clientsInRoom;
   }
 }
