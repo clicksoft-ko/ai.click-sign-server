@@ -1,13 +1,12 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { SockSignModule } from './sock-sign/sock-sign.module';
+import { RemoteSignModule } from './remote-sign/remote-sign.module';
 import { SocketServer } from './lib/socket-io';
-import { RemoteSignService } from './remote-sign/remote-sign.service';
 
 @Module({
-  imports: [SockSignModule],
+  imports: [RemoteSignModule],
   controllers: [AppController],
-  providers: [AppService, SocketServer, RemoteSignService],
+  providers: [AppService, SocketServer],
 })
 export class AppModule {}

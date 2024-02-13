@@ -1,28 +1,68 @@
 import { Injectable } from '@nestjs/common';
 import { Server, Socket } from 'socket.io';
-import { SockData, ToWindow } from './dto/sock-data';
+import { SocketRoomManager } from 'src/lib/socket-room-manager';
+import { SockData } from './dto/sock-data';
 
 @Injectable()
 export class RemoteSignService {
-  async fromWindow(
-    server: Server,
-    client: Socket,
-    data: SockData,
-    ackCallback: any
-  ) {
+  private server: Server;
+  constructor(private readonly roomManager: SocketRoomManager) {}
+
+  setServer(server: Server) {
+    this.server = server;
+    this.roomManager.setServer(server);
+  }
+
+  roomIn(socket: Socket, room: string) {
+    const clientIds = this.roomManager.leaveAllClientsInRoom(room);
+
+    for (const clientId of clientIds) {
+      this.server.to(clientId).emit('leaveRoom', room);
+    }
+    // if (isRoomExists) {
+    //   return {
+    //     status: 'error',
+    //     errorMessage: '해당 코드는 이미 사용중입니다.',
+    //   };
+    // }
+    socket.join(room);
+    return {
+      status: 'join',
+    };
+  }
+
+  roomOut(socket: Socket, room: string) {
+    socket.leave(room);
+  }
+
+  async fromWindow(socket: Socket, data: SockData) {
     try {
-      server.emit(`toWeb-${data.sockCode}`, data);
-    } catch (error) {
-      console.log('fromWindow', `에러발생`, error.message);
-      client.emit(`toWindowError-${data.sockCode}`, {
-        sockCode: data.sockCode,
-        toWindow: ToWindow.웹접속에러,
-      } as SockData);
+      const response = await this.server
+        .to(data.room)
+        .timeout(10000)
+        .emitWithAck('toWeb', data);
+
+      console.log('fromWindow res', response);
+      return !!response?.[0];
+    } catch {
+      return false;
     }
   }
 
-  fromWeb(server: Server, data: SockData, ackCallback: any) {
-    // console.log('fromWeb', data);
-    server.emit(`toWindow-${data.sockCode}`, data);
+  async fromWeb(socket: Socket, data: SockData) {
+    try {
+      const response = await this.server
+        .to(data.room)
+        .timeout(10000)
+        .emitWithAck('toWindow', data);
+      console.log('fromWeb res', response);
+      return !!response?.[0];
+    } catch {
+      return false;
+    }
+  }
+
+  disconnect(socket: Socket) {
+    // this.roomManager.leaveAll(socket);
   }
 }

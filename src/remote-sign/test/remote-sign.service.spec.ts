@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { RemoteSignService } from '../remote-sign.service';
 
-describe('RemoteSignService', () => {
+describe('SockSignService', () => {
   let service: RemoteSignService;
 
   beforeEach(async () => {

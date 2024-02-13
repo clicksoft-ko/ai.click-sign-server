@@ -1,22 +1,26 @@
 export class SockData {
-  sockCode: string;
+  room: string;
   image?: ArrayBuffer;
   toWeb?: ToWeb;
   toWindow?: ToWindow;
 }
 
 export enum ToWeb {
-  화면공유 = 0,
   서명요청 = 1,
   서명확인 = 2,
   서명취소 = 3,
   작성완료 = 4,
+  화면공유 = 200,
+  화면초기화 = 201,
   윈도우접속에러 = 500,
+  PING = 1000,
 }
 
 export enum ToWindow {
   서명중 = 0,
   서명완료 = 1,
   화면공유 = 200,
+  화면초기화 = 201,
   웹접속에러 = 500,
+  PING = 1000,
 }
