@@ -1,4 +1,4 @@
-export class ClickDeskConst {
+export class ClickDeskEv {
   static readonly joinRoom: string = "joinRoom";
   static readonly leaveRoom: string = "leaveRoom";
   static readonly getMobilePatientInfo: string = "getMobilePatientInfo";

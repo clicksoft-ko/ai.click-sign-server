@@ -4,7 +4,7 @@ import { LoggerService } from 'src/logger/logger.service';
 import { ClickDaemonDto } from './dto/click-daemon.dto';
 import { SocketEvError } from 'src/models/socket-ev-error';
 import { SocketResponse } from './dto/socket-response';
-import { ClickDeskConst } from './constants/click-desk-const';
+import { ClickDeskEv } from './constants/click-desk-ev';
 
 @Injectable()
 export class ClickDeskService {
@@ -52,7 +52,7 @@ export class ClickDeskService {
 
     // 클라이언트가 방이 변경된 경우 이전 방은 나간다.
     anotherRooms?.forEach(room => {
-      this.server.to(room).emit(ClickDeskConst.leaveRoom, { room })
+      this.server.to(room).emit(ClickDeskEv.leaveRoom, { room })
       client.leave(room)
     });
 
@@ -61,7 +61,7 @@ export class ClickDeskService {
     const isValidKey = !!dto.key;
 
     if (!existRoom && isValidKey) {
-      this.server.to(dto.key).emit(ClickDeskConst.leaveRoom, emitData); // 다른 클라이언트에 해당 방이 존재하면 나간다고 알림.
+      this.server.to(dto.key).emit(ClickDeskEv.leaveRoom, emitData); // 다른 클라이언트에 해당 방이 존재하면 나간다고 알림.
       this.server.socketsLeave(dto.key); // 다른 클라이언트에 해당 방이 존재하면 나간다.
       client.join(dto.key);
     }

@@ -1,6 +1,6 @@
 import { WebSocketGateway, SubscribeMessage, MessageBody, OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect, ConnectedSocket } from '@nestjs/websockets';
 import { ClickDeskService } from './click-desk.service';
-import { ClickDeskConst } from './constants/click-desk-const';
+import { ClickDeskEv } from './constants/click-desk-ev';
 import { ClickDaemonDto } from './dto/click-daemon.dto';
 import { Server, Socket } from 'socket.io';
 import { UseFilters } from '@nestjs/common';
@@ -22,38 +22,38 @@ export class ClickDeskGateway implements OnGatewayInit, OnGatewayConnection, OnG
     this.clickDeskService.setServer(server);
   }
 
-  @SubscribeMessage(ClickDeskConst.joinRoom)
+  @SubscribeMessage(ClickDeskEv.joinRoom)
   joinRoom(@MessageBody() dto: ClickDaemonDto, @ConnectedSocket() client: Socket) {
     return this.clickDeskService.joinRoom(client, dto);
   }
 
-  @SubscribeMessage(ClickDeskConst.getMobilePatientInfo)
+  @SubscribeMessage(ClickDeskEv.getMobilePatientInfo)
   getMobilePatientInfo(@MessageBody() dto: ClickDaemonDto) {
-    return this.clickDeskService.brokerEvent(ClickDeskConst.getMobilePatientInfo, dto);
+    return this.clickDeskService.brokerEvent(ClickDeskEv.getMobilePatientInfo, dto);
   }
 
-  @SubscribeMessage(ClickDeskConst.getMobileDoctorInfo)
+  @SubscribeMessage(ClickDeskEv.getMobileDoctorInfo)
   getMobileDoctorInfo(@MessageBody() dto: ClickDaemonDto) {
-    return this.clickDeskService.brokerEvent(ClickDeskConst.getMobileDoctorInfo, dto);
+    return this.clickDeskService.brokerEvent(ClickDeskEv.getMobileDoctorInfo, dto);
   }
 
-  @SubscribeMessage(ClickDeskConst.getMobilePatientCert)
+  @SubscribeMessage(ClickDeskEv.getMobilePatientCert)
   getMobilePatientCert(@MessageBody() dto: ClickDaemonDto) {
-    return this.clickDeskService.brokerEvent(ClickDeskConst.getMobilePatientCert, dto);
+    return this.clickDeskService.brokerEvent(ClickDeskEv.getMobilePatientCert, dto);
   }
 
-  @SubscribeMessage(ClickDeskConst.receiveMobilePatient)
+  @SubscribeMessage(ClickDeskEv.receiveMobilePatient)
   receiveMobilePatient(@MessageBody() dto: ClickDaemonDto) {
-    return this.clickDeskService.brokerEvent(ClickDeskConst.receiveMobilePatient, dto);
+    return this.clickDeskService.brokerEvent(ClickDeskEv.receiveMobilePatient, dto);
   }
 
-  @SubscribeMessage(ClickDeskConst.checkMobilePatientConsent)
+  @SubscribeMessage(ClickDeskEv.checkMobilePatientConsent)
   checkMobilePatientConsent(@MessageBody() dto: ClickDaemonDto) {
-    return this.clickDeskService.brokerEvent(ClickDeskConst.checkMobilePatientConsent, dto);
+    return this.clickDeskService.brokerEvent(ClickDeskEv.checkMobilePatientConsent, dto);
   }
 
-  @SubscribeMessage(ClickDeskConst.saveMobilePatientConsent)
+  @SubscribeMessage(ClickDeskEv.saveMobilePatientConsent)
   saveMobilePatientConsent(@MessageBody() dto: ClickDaemonDto) {
-    return this.clickDeskService.brokerEvent(ClickDeskConst.saveMobilePatientConsent, dto);
+    return this.clickDeskService.brokerEvent(ClickDeskEv.saveMobilePatientConsent, dto);
   }
 }
