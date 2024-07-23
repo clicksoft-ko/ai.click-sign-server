@@ -1,6 +1,5 @@
 export class ClickDeskEv {
   static readonly joinRoom: string = "joinRoom";
-  static readonly leaveRoom: string = "leaveRoom";
   static readonly getMobilePatientInfo: string = "getMobilePatientInfo";
   static readonly getMobileDoctorInfo: string = "getMobileDoctorInfo";
   static readonly getMobilePatientCert: string = "getMobilePatientCert";

@@ -1,7 +1,6 @@
-import { ExceptionFilter, Catch, ArgumentsHost, HttpException, Logger } from '@nestjs/common';
-import { WsException } from '@nestjs/websockets';
+import { ArgumentsHost, Catch, ExceptionFilter } from '@nestjs/common';
 import { LoggerService } from 'src/logger/logger.service';
-import { SocketResponse } from '../click-desk/dto/socket-response';
+import { SocketResponse } from '../dto/socket-response';
 
 @Catch()
 export class SocketIOExceptionsFilter implements ExceptionFilter {

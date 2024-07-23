@@ -1,12 +1,14 @@
 import { WebSocketGateway, SubscribeMessage, MessageBody, OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect, ConnectedSocket } from '@nestjs/websockets';
 import { ClickDeskService } from './click-desk.service';
 import { ClickDeskEv } from './constants/click-desk-ev';
-import { ClickDaemonDto } from './dto/click-daemon.dto';
+import { ClickDaemonDto } from '../../common/socket-io/dto/click-daemon.dto';
 import { Server, Socket } from 'socket.io';
-import { UseFilters } from '@nestjs/common';
-import { SocketIOExceptionsFilter } from '../filters/socket-io-exceptions.filter';
+import { UseFilters, UseInterceptors } from '@nestjs/common';
+import { SocketIOExceptionsFilter } from '../../common/socket-io/filters/socket-io-exceptions.filter';
+import { SocketIOInterceptor } from 'src/common/socket-io/interceptors/socket-io-interceptor';
 
 @WebSocketGateway({ transports: ['websocket'], namespace: "/click-desk" })
+@UseInterceptors(SocketIOInterceptor)
 @UseFilters(SocketIOExceptionsFilter)
 export class ClickDeskGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
   constructor(private readonly clickDeskService: ClickDeskService) { }

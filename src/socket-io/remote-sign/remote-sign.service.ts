@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Server, Socket } from 'socket.io';
-import { SocketRoomManager } from 'src/lib/socket-room-manager';
+import { SocketRoomManager } from 'src/common/socket-io/lib/socket-room-manager';
 import { SockData } from './dto/sock-data';
 
 @Injectable()
