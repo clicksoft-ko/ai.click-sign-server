@@ -6,9 +6,10 @@ import { SocketServer } from './common/socket-io/lib/socket-io';
 import { ClickDeskModule } from './socket-io/click-desk/click-desk.module';
 import { LoggerModule } from './logger/logger.module';
 import { HsModule } from './socket-io/hs/hs.module';
+import { WebAppModule } from './socket-io/web-app/web-app.module';
 
 @Module({
-  imports: [RemoteSignModule, ClickDeskModule, LoggerModule, HsModule],
+  imports: [RemoteSignModule, ClickDeskModule, LoggerModule, HsModule, WebAppModule],
   controllers: [AppController],
   providers: [AppService, SocketServer,],
 })

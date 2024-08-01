@@ -6,6 +6,7 @@ import { Server, Socket } from 'socket.io';
 import { UseFilters, UseInterceptors } from '@nestjs/common';
 import { SocketIOExceptionsFilter } from '../../common/socket-io/filters/socket-io-exceptions.filter';
 import { SocketIOInterceptor } from 'src/common/socket-io/interceptors/socket-io-interceptor';
+import { RoomEv } from 'src/common/socket-io/constants/room-ev';
 
 @WebSocketGateway({ transports: ['websocket'], namespace: "/click-desk" })
 @UseInterceptors(SocketIOInterceptor)
@@ -24,7 +25,7 @@ export class ClickDeskGateway implements OnGatewayInit, OnGatewayConnection, OnG
     this.clickDeskService.setServer(server);
   }
 
-  @SubscribeMessage(ClickDeskEv.joinRoom)
+  @SubscribeMessage(RoomEv.joinRoom)
   joinRoom(@MessageBody() dto: ClickDaemonDto, @ConnectedSocket() client: Socket) {
     return this.clickDeskService.joinRoom(client, dto);
   }
@@ -57,5 +58,10 @@ export class ClickDeskGateway implements OnGatewayInit, OnGatewayConnection, OnG
   @SubscribeMessage(ClickDeskEv.saveMobilePatientConsent)
   saveMobilePatientConsent(@MessageBody() dto: ClickDaemonDto) {
     return this.clickDeskService.brokerEvent(ClickDeskEv.saveMobilePatientConsent, dto);
+  }
+
+  @SubscribeMessage(ClickDeskEv.fetchHealthCheckUpList)
+  fetchHealthCheckUpList(@MessageBody() dto: ClickDaemonDto) {
+    return this.clickDeskService.brokerEvent(ClickDeskEv.fetchHealthCheckUpList, dto);
   }
 }

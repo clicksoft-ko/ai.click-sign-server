@@ -9,7 +9,9 @@ async function bootstrap() {
     origin: ['*'],
   });
 
-  await app.listen(4001);
+  await app.listen(4001, ()=> {
+    console.log(`4001포트 연결 됨`);    
+  });
 }
 
 bootstrap();

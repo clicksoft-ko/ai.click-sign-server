@@ -20,6 +20,7 @@ export abstract class SocketServiceBase {
   }
 
   async brokerEvent(ev: string, dto: ClickDaemonDto): Promise<SocketResponse<any>> {
+    this.logger.debug(`ev : ${ev}`)
     const result = await this.server
       .to(dto.key)
       .timeout(10000)
