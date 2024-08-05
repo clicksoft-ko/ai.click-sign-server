@@ -4,4 +4,5 @@ export class WebAppEv {
   static readonly getPrescriptions: string = "getPrescriptions";
   static readonly getFirstCharts: string = "getFirstCharts";
   static readonly getProgressNotes: string = "getProgressNotes";
+  static readonly getNursingRecords: string = "getNursingRecords";
 }

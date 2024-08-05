@@ -26,7 +26,7 @@ export abstract class SocketServiceBase {
       .timeout(10000)
       .emitWithAck(ev, dto);
 
-    const resultData = this.getResult(result);
+    const resultData = this.getResult(ev, result);
     if (resultData?.status === 'error') {
       throw new SocketEvError({ ...resultData }, ev)
     }
@@ -34,10 +34,10 @@ export abstract class SocketServiceBase {
     return { status: 'success', data: resultData };
   }
 
-  private getResult(result: any) {
+  private getResult(ev: string, result: any) {
     const resultData = result?.[0];
     if (!resultData) {
-      throw new Error("클라이언트로부터 요청을 실패했어요.")
+      throw new SocketEvError({ status: "error", message: "클라이언트로부터 요청을 실패했어요.\n소켓 데몬 프로그램을 확인하세요." }, ev)
     }
 
     return resultData;
