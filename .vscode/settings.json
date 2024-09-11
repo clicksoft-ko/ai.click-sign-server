@@ -2,5 +2,15 @@
   "editor.codeActionsOnSave": {
     "source.fixAll": "explicit"
   },
-  "editor.formatOnSave": false
+  "editor.formatOnSave": false,
+  "yaml.schemas": {
+    "https://json.schemastore.org/github-action.json": [
+      "/*.github/workflows/*",
+      "file:///c%3A/Web/click-sign-server/.github/workflows/deploy.yml"
+    ],
+    "https://json.schemastore.org/kubernetes.json": "/*.k8s.yaml",
+    "https://json.schemastore.org/helmfile.json": "/helmfile.yaml",
+    "https://json.schemastore.org/ansible-playbook.json": "/playbook.yaml",
+    "https://json.schemastore.org/circleci-config.json": "/.circleci/config.yml"
+  }
 }
