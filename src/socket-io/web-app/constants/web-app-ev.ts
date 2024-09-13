@@ -8,4 +8,5 @@ export class WebAppEv {
   static readonly getVitalSigns: string = "getVitalSigns";
   static readonly getIOSheets: string = "getIOSheets";
   static readonly getInsulins: string = "getInsulins";
+  static readonly getLabs: string = "getLabs";
 }
