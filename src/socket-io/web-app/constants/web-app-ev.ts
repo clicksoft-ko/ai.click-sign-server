@@ -9,4 +9,5 @@ export class WebAppEv {
   static readonly getIOSheets: string = "getIOSheets";
   static readonly getInsulins: string = "getInsulins";
   static readonly getLabs: string = "getLabs";
+  static readonly getConsultations: string = "getConsultations";
 }

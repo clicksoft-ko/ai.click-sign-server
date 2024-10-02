@@ -79,4 +79,9 @@ export class WebAppGateway implements OnGatewayInit, OnGatewayConnection, OnGate
   getLabs(@MessageBody() dto: ClickDaemonDto) {
     return this.webAppService.brokerEvent(WebAppEv.getLabs, dto);
   }
+
+  @SubscribeMessage(WebAppEv.getConsultations)
+  getConsultations(@MessageBody() dto: ClickDaemonDto) {
+    return this.webAppService.brokerEvent(WebAppEv.getConsultations, dto);
+  }
 }
