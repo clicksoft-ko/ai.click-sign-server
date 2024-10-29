@@ -10,4 +10,7 @@ export class WebAppEv {
   static readonly getInsulins: string = "getInsulins";
   static readonly getLabs: string = "getLabs";
   static readonly getConsultations: string = "getConsultations";
+  static readonly getVssOfDay: string = "getVssOfDay";
+  static readonly saveVssOfDay: string = "saveVssOfDay";
+  static readonly deleteVs: string = "deleteVs";
 }
