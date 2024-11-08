@@ -35,6 +35,11 @@ export class WebAppGateway implements OnGatewayInit, OnGatewayConnection, OnGate
     return this.webAppService.brokerEvent(WebAppEv.winAccountVerification, dto);
   }
 
+  @SubscribeMessage(WebAppEv.getPatient)
+  getPatient(@MessageBody() dto: ClickDaemonDto) {
+    return this.webAppService.brokerEvent(WebAppEv.getPatient, dto);
+  }
+
   @SubscribeMessage(WebAppEv.getPatients)
   getPatients(@MessageBody() dto: ClickDaemonDto) {
     return this.webAppService.brokerEvent(WebAppEv.getPatients, dto);
@@ -98,5 +103,10 @@ export class WebAppGateway implements OnGatewayInit, OnGatewayConnection, OnGate
   @SubscribeMessage(WebAppEv.deleteVs)
   deleteVs(@MessageBody() dto: ClickDaemonDto) {
     return this.webAppService.brokerEvent(WebAppEv.deleteVs, dto);
+  }
+
+  @SubscribeMessage(WebAppEv.getWards)
+  getWards(@MessageBody() dto: ClickDaemonDto) {
+    return this.webAppService.brokerEvent(WebAppEv.getWards, dto);
   }
 }
