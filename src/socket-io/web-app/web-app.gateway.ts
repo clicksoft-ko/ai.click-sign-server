@@ -109,4 +109,24 @@ export class WebAppGateway implements OnGatewayInit, OnGatewayConnection, OnGate
   getWards(@MessageBody() dto: ClickDaemonDto) {
     return this.webAppService.brokerEvent(WebAppEv.getWards, dto);
   }
+
+  @SubscribeMessage(WebAppEv.saveTnote)
+  saveTnote(@MessageBody() dto: ClickDaemonDto) {
+    return this.webAppService.brokerEvent(WebAppEv.saveTnote, dto);
+  }
+
+  @SubscribeMessage(WebAppEv.getTnoteItems)
+  getTnoteItems(@MessageBody() dto: ClickDaemonDto) {
+    return this.webAppService.brokerEvent(WebAppEv.getTnoteItems, dto);
+  }
+
+  @SubscribeMessage(WebAppEv.deleteTnote)
+  deleteTnote(@MessageBody() dto: ClickDaemonDto) {
+    return this.webAppService.brokerEvent(WebAppEv.deleteTnote, dto);
+  }
+
+  @SubscribeMessage(WebAppEv.getTnoteHistories)
+  getTnoteHistories(@MessageBody() dto: ClickDaemonDto) {
+    return this.webAppService.brokerEvent(WebAppEv.getTnoteHistories, dto);
+  }
 }

@@ -15,4 +15,8 @@ export class WebAppEv {
   static readonly saveVssOfDay: string = "saveVssOfDay";
   static readonly deleteVs: string = "deleteVs";
   static readonly getWards: string = "getWards";
+  static readonly saveTnote: string = "saveTnote";
+  static readonly getTnoteItems: string = "getTnoteItems";
+  static readonly deleteTnote: string = "deleteTnote";
+  static readonly getTnoteHistories: string = "getTnoteHistories";
 }
