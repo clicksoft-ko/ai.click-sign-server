@@ -15,12 +15,27 @@ export function getIp(req: Request): string | undefined {
 }
 
 export function getSocketIp(socket: Socket): string | undefined {
-  // x-forwarded-for 헤더 우선 처리
-  const xForwardedFor = socket.handshake.headers['x-forwarded-for'] as string;
-  if (xForwardedFor) {
-    return xForwardedFor.split(',')[0].trim(); // 첫 번째 IP 주소 반환
+  // IIS 관련 헤더들 우선 확인
+  const headers = socket.handshake.headers;
+  
+  // 우선순위에 따라 헤더 확인
+  const possibleHeaders = [
+    'x-original-forwarded-for',  // IIS ARR에서 사용
+    'x-forwarded-for',
+    'x-real-ip',
+    'cf-connecting-ip',          // Cloudflare 사용시
+    'true-client-ip',
+    'x-client-ip'
+  ];
+
+  for (const header of possibleHeaders) {
+    const headerValue = headers[header] as string;
+    if (headerValue) {
+      // 쉼표로 구분된 경우 첫 번째 IP 반환
+      return headerValue.split(',')[0].trim();
+    }
   }
 
-  // 기본 IP 주소
+  // 모든 헤더가 없는 경우 기본 주소 반환
   return socket.handshake.address;
 }
