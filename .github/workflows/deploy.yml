@@ -54,7 +54,7 @@ jobs:
 
       - name: Update image tag in values.yaml (yq)
         run: |
-          yq -i '.server.service.version = "${{ github.run_number }}"' ai-server-k8s/projects/click-sign/values.yaml
+          yq -i '.server.image.version = "${{ github.run_number }}"' ai-server-k8s/projects/click-sign/values.yaml
 
       - name: Commit and push changes
         run: |
